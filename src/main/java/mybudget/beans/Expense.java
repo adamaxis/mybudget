@@ -86,4 +86,11 @@ public class Expense {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+
+	@Override
+	public String toString() {
+		return "Expense [expense_id=" + expense_id + ", date_time=" + date_time + ", name=" + name + ", amount="
+				+ amount + ", user=" + user + ", category=" + category + "]";
+	}
+	
 }

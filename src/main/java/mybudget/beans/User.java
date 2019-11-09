@@ -81,4 +81,11 @@ public class User {
 	public void setBudget_amount(double budget_amount) {
 		this.budget_amount = budget_amount;
 	}
+
+	@Override
+	public String toString() {
+		return "User [user_id=" + user_id + ", first_name=" + first_name + ", last_name=" + last_name + ", email="
+				+ email + ", date=" + date + ", budget_amount=" + budget_amount + "]";
+	}
+	
 }
