@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -19,6 +20,18 @@ public class Expense {
 	private LocalDate date_time;
 	private String name;
 	private double amount;
+
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
+	
+	@ManyToOne
+	@JoinColumn(name = "category_id")
+	private Category category;
+	
+	public Expense() {
+		super();
+	}
 	
 	public Expense(LocalDate date_time, String name, double amount, User user, Category category) {
 		super();
@@ -27,16 +40,6 @@ public class Expense {
 		this.amount = amount;
 		this.user = user;
 		this.category = category;
-	}
-
-	@ManyToOne
-	private User user;
-	
-	@ManyToOne
-	private Category category;
-	
-	public Expense() {
-		super();
 	}
 
 	public long getExpense_id() {
