@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert user here</title>
+</head>
+<body>
+<form name='f' th:object="${newUser}" th:action="@{/addUser}" method='POST'>
+
+First Name: <input name="first_name" size="20"> <br />
+Last Name: <input name="last_name" size="20"> <br />
+Email: <input name="email" size="20"> <br />
+Date:  
+Budget Amount: <input name="budget_amount" size="20"> <br />
+
+<input name="submit" type="submit" value="submit" />
+</form>
+<a href="viewAll">View all Users</a>
+</body>
+</html>

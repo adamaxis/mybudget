@@ -10,16 +10,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="expense")
+@Table(name = "expense")
 public class Expense {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long expense_id;
 	private LocalDate date_time;
 	private String name;
 	private double amount;
-	
+	@ManyToOne
+	private User user;
+	@ManyToOne
+	private Category category;
+
 	public Expense(LocalDate date_time, String name, double amount, User user, Category category) {
 		super();
 		this.date_time = date_time;
@@ -29,12 +33,6 @@ public class Expense {
 		this.category = category;
 	}
 
-	@ManyToOne
-	private User user;
-	
-	@ManyToOne
-	private Category category;
-	
 	public Expense() {
 		super();
 	}
@@ -92,5 +90,5 @@ public class Expense {
 		return "Expense [expense_id=" + expense_id + ", date_time=" + date_time + ", name=" + name + ", amount="
 				+ amount + ", user=" + user + ", category=" + category + "]";
 	}
-	
+
 }

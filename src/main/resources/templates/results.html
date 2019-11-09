@@ -1,0 +1,21 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>View budget here</title>
+</head>
+<body>
+<form>
+<table>
+<tr th:each="currentUser :${users}">
+<td th:text="${currentUser.id}" />
+<td th:text="${currentUser.first_name}" />
+<td th:text="${currentUser.last_name}" />
+<td th:text="${currentUser.date}" />
+<td th:text="${currentUser.budget_amount}" />
+<td><a th:href="@{/edit/{id}(id=${currentUser.id})}">Edit</a></td>
+<td><a th:href="@{/delete/{id}(id=${currentUser.id})}">Delete</a></td>
+</table>
+</form>
+<a href="../addUser">Add a new user</a>
+</body>
+</html>
