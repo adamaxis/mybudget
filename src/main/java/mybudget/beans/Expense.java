@@ -20,10 +20,6 @@ public class Expense {
 	private LocalDate date_time;
 	private String name;
 	private double amount;
-
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
 	
 	@ManyToOne
 	@JoinColumn(name = "category_id")
@@ -33,12 +29,11 @@ public class Expense {
 		super();
 	}
 	
-	public Expense(LocalDate date_time, String name, double amount, User user, Category category) {
+	public Expense(LocalDate date_time, String name, double amount, Category category) {
 		super();
 		this.date_time = date_time;
 		this.name = name;
 		this.amount = amount;
-		this.user = user;
 		this.category = category;
 	}
 
@@ -72,14 +67,6 @@ public class Expense {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public Category getCategory() {
