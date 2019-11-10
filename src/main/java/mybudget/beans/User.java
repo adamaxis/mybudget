@@ -1,11 +1,14 @@
 package mybudget.beans;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,25 +24,23 @@ public class User {
 	private LocalDate date;
 	private double budget_amount;
 	
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<Expense> expenses;
+	
 	public User() {
 		super();
 	}
 
-	public User(String first_name, String last_name, String email, LocalDate date, double budget_amount) {
+	public User(long user_id, String first_name, String last_name, String email, LocalDate date, double budget_amount,
+			List<Expense> expenses) {
 		super();
+		this.user_id = user_id;
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.email = email;
 		this.date = date;
 		this.budget_amount = budget_amount;
-	}
-
-	public long getUser_id() {
-		return user_id;
-	}
-
-	public void setUser_id(long user_id) {
-		this.user_id = user_id;
+		this.expenses = expenses;
 	}
 
 	public String getFirst_name() {
@@ -82,10 +83,11 @@ public class User {
 		this.budget_amount = budget_amount;
 	}
 
-	@Override
-	public String toString() {
-		return "User [user_id=" + user_id + ", first_name=" + first_name + ", last_name=" + last_name + ", email="
-				+ email + ", date=" + date + ", budget_amount=" + budget_amount + "]";
+	public List<Expense> getExpenses() {
+		return expenses;
 	}
-	
+
+	public void setExpenses(List<Expense> expenses) {
+		this.expenses = expenses;
+	}
 }

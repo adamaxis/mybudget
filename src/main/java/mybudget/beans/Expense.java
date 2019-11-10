@@ -2,39 +2,40 @@ package mybudget.beans;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "expense")
+@Table(name="expense")
 public class Expense {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long expense_id;
 	private LocalDate date_time;
 	private String name;
 	private double amount;
-	@ManyToOne
-	private User user;
-	@ManyToOne
+	
+	@ManyToOne(cascade=CascadeType.PERSIST)
+	@JoinColumn(name = "category_id")
 	private Category category;
-
-	public Expense(LocalDate date_time, String name, double amount, User user, Category category) {
+	
+	public Expense() {
+		super();
+	}
+	
+	public Expense(LocalDate date_time, String name, double amount, Category category) {
 		super();
 		this.date_time = date_time;
 		this.name = name;
 		this.amount = amount;
-		this.user = user;
 		this.category = category;
-	}
-
-	public Expense() {
-		super();
 	}
 
 	public long getExpense_id() {
@@ -69,14 +70,6 @@ public class Expense {
 		this.amount = amount;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public Category getCategory() {
 		return category;
 	}
@@ -84,11 +77,4 @@ public class Expense {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-
-	@Override
-	public String toString() {
-		return "Expense [expense_id=" + expense_id + ", date_time=" + date_time + ", name=" + name + ", amount="
-				+ amount + ", user=" + user + ", category=" + category + "]";
-	}
-
 }
