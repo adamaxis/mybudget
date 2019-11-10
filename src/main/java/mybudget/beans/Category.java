@@ -39,4 +39,10 @@ public class Category {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	@Override
+	public String toString() {
+		return "Category [category_id=" + category_id + ", name=" + name + "]";
+	}
+	
 }

@@ -2,10 +2,12 @@ package mybudget.beans;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -20,23 +22,20 @@ public class Expense {
 	private String name;
 	private double amount;
 	
-	public Expense(LocalDate date_time, String name, double amount, User user, Category category) {
-		super();
-		this.date_time = date_time;
-		this.name = name;
-		this.amount = amount;
-		this.user = user;
-		this.category = category;
-	}
-
-	@ManyToOne
-	private User user;
-	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.PERSIST)
+	@JoinColumn(name = "category_id")
 	private Category category;
 	
 	public Expense() {
 		super();
+	}
+	
+	public Expense(LocalDate date_time, String name, double amount, Category category) {
+		super();
+		this.date_time = date_time;
+		this.name = name;
+		this.amount = amount;
+		this.category = category;
 	}
 
 	public long getExpense_id() {
@@ -69,14 +68,6 @@ public class Expense {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public Category getCategory() {

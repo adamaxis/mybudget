@@ -1,7 +1,5 @@
 package mybudget.controller;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,25 +7,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import mybudget.beans.Expense;
-import mybudget.repository.ExpensesRepository;
+import mybudget.beans.User;
+import mybudget.repository.UserRepository;
 
 @Controller
 public class WebController {
 
 	@Autowired
-	ExpensesRepository repo;
+	UserRepository repo;
 	
-	@GetMapping("/addBudget")
-	public String addBudgetForm(@ModelAttribute("expenses") ArrayList<Expense> expenses) 
+	@GetMapping("/addbudget")
+	public String addBudgetForm(@ModelAttribute("user") User user) 
 	{
+		
 		return "create-budget"; 
 	}
 	
-	@PostMapping("/addExpenses")
-	public String addExpensesToDb(@ModelAttribute("expenses") ArrayList<Expense> expenses, Model model) { 
-		repo.saveAll(expenses);
-		model.addAttribute("expenses", repo.findAll());  
+	@PostMapping("/savebudget")
+	public String saveUserBudget(@ModelAttribute("user") User user, Model model) { 
+		repo.save(user);
+		model.addAttribute("user", repo.findAll());  
 		return "results";
 	}
 
