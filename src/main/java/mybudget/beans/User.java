@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name="user")
 public class User {
@@ -21,6 +23,7 @@ public class User {
 	private String first_name;
 	private String last_name;
 	private String email;
+	@DateTimeFormat(pattern="yyyy-MM-dd") // for model verification
 	private LocalDate date;
 	private double budget_amount;
 	
@@ -41,6 +44,14 @@ public class User {
 		this.date = date;
 		this.budget_amount = budget_amount;
 		this.expenses = expenses;
+	}
+
+	public long getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(long user_id) {
+		this.user_id = user_id;
 	}
 
 	public String getFirst_name() {
@@ -90,4 +101,11 @@ public class User {
 	public void setExpenses(List<Expense> expenses) {
 		this.expenses = expenses;
 	}
+
+	@Override
+	public String toString() {
+		return "User [user_id=" + user_id + ", first_name=" + first_name + ", last_name=" + last_name + ", email="
+				+ email + ", date=" + date + ", budget_amount=" + budget_amount + ", expenses=" + expenses + "]";
+	}
+	
 }

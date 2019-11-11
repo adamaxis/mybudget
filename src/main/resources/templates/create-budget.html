@@ -5,7 +5,7 @@
 </head>
 <body>
 <h2>Create Budget</h2>
-<form th:action="@{/savebudget}" th:object="${user}" method="post">
+<form name="budget" th:action="@{/savebudget}" th:object="${user}" method="post">
 	<!-- FOR THE USER -->
 	<div>
 	   <h4>User</h4>
@@ -13,7 +13,7 @@
 		First Name:<input type="text" name="first_name" /> <br />
 	   	Last Name:<input type="text" name="last_name" /> <br />
 	   	Email:<input type="text" name="email" /> <br />
-	   	Date-month:<input type="text" name="date" /> <br />
+	   	Date-month:<input type="date" name="date" /> <br />
 	   	Your Budget $:<input type="text" name="budget_amount" /> <br />
 	   	
 	</div>
@@ -40,7 +40,7 @@
 	        </div>
 	        <!-- DATE -->
 	        <div class="col form-group d-none">
-	            <input th:field="*{expenses[__${status.index}__].date_time}" type="text" class="form-control">
+	            <input th:field="*{expenses[__${status.index}__].date_time}" type="date" class="form-control">
 	        </div>
 	    </div>
 	</div>
