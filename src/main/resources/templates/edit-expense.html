@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Update Budget</title>
+</head>
+<body>
+<form name="editExpense" th:action="@{/saveExpense}" th:object="${expense}" method="post">
+	<!-- FOR THE USER -->
+	<div>
+		<input type="hidden" name="user_id" th:value="${expense.expense_id}" />
+		Name:<input type="text" name="name" th:value="${expense.name}"/> <br />
+	   	Amount:<input type="text" name="amount" th:value="${expense.amount}" /> <br />
+	   	Category:<input type="text" name="category" th:value="${expense.category}" /> <br />
+	  	Date:<input type="date" name="date_time" th:value="${expense.date_time}" /> <br />
+	   	
+	</div>
+	<!--SUBMIT FORM BUTTON-->
+	<div class="row text-right">
+	    <div class="col">
+	        <button name="submit" type="submit" class="btn btn-primary">Save Expense</button>
+	        <input type = "button" value="Abandon Edit" onclick='window.location.assign("../../");'>
+	    </div>
+	</div>
+</form>
+
+</body>
+</html>

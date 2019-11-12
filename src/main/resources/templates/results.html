@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>View All Budget</title>
 </head>
 <table>
 <tr th:each="currentUser : ${users}">
@@ -21,5 +21,6 @@
 		</th:block>
 </tr>
 </table>
+<a href="addbudget">Create new budget</a> <br />
 </body>
 </html>
