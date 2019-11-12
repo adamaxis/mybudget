@@ -1,5 +1,7 @@
 package mybudget.controller;
 
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -31,7 +33,7 @@ public class WebController {
 	
 	
 	@GetMapping("/addbudget")
-	public String addBudgetForm(@ModelAttribute("user") User user) 
+	public String addBudgetForm(@ModelAttribute("user") User user)
 	{
 		
 		return "create-budget"; 
@@ -60,6 +62,18 @@ public class WebController {
 		model.addAttribute("user", user);
 		return "index"; 
 	}
+	
+	@GetMapping("/viewAll")
+	public String viewAllBudget(Model model) {
+		model.addAttribute("users", repo.findAll());
+		return "results";
+	}
+	
+	// Code for printing model attributes to console -- Daniel
+	/*Map<String, Object> y = model.asMap();
+    for (Entry<String, Object> entry : y.entrySet())  
+        System.out.println("Key = " + entry.getKey() + 
+                         ", Value = " + entry.getValue()); */
 
 	//launch for editing expense
 	@GetMapping("/editExpense/{id}")

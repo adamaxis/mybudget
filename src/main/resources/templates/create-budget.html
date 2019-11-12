@@ -32,7 +32,7 @@
 	        </div>
 	        <!-- AMOUNT -->
 	        <div class="col form-group">
-	            <input th:field="*{expenses[__${status.index}__].amount}" type="text" class="form-control">
+	            <input th:field="*{expenses[__${status.index}__].amount}" type="number" class="form-control">
 	        </div>
 	        <!-- CATEGORY -->
 	        <div class="col form-group">
@@ -75,7 +75,9 @@
 	        col.classList.add('col', 'form-group');
 	
 	        let input = document.createElement('input');
-	        input.type = 'text';
+	        if(fieldName == "date_time") input.type = 'date';
+	        else if(fieldName == 'amount') input.type = 'number';
+	        else input.type = 'text';
 	        input.classList.add('form-control');
 	        input.id = listName + rowIndex + '.' + fieldName;
 	        input.setAttribute('name', listName + '[' + rowIndex + '].' + fieldName);
