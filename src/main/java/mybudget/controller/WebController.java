@@ -63,12 +63,6 @@ public class WebController {
 		return "index"; 
 	}
 	
-	@GetMapping("/viewAll")
-	public String viewAllBudget(Model model) {
-		model.addAttribute("users", repo.findAll());
-		return "results";
-	}
-	
 	// Code for printing model attributes to console -- Daniel
 	/*Map<String, Object> y = model.asMap();
     for (Entry<String, Object> entry : y.entrySet())  
