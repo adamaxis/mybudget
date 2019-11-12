@@ -1,10 +1,27 @@
-<!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>View All Budget</title>
 </head>
 <body>
-	This is the result page
+<form>
+<table>
+<tr th:each="currentUser :${users}">
+<td th:text="${currentUser.first_name}" />
+<td th:text="${currentUser.last_name}" />
+<td th:text="${currentUser.email}" />
+<td th:text="${currentUser.date}" />
+<td th:text="${currentUser.budget_amount}" />
+
+<tr th:each="currentUser :${user.expenses}">
+<td th:text="${currentUser.currentExpense.category}" />
+
+
+</tr>
+
+</table>
+</form>
+<a href="addbudget">Create new budget</a> <br />
+
 </body>
 </html>
