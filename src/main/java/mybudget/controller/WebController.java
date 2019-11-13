@@ -2,9 +2,12 @@ package mybudget.controller;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +21,14 @@ public class WebController {
 
 	@Autowired
 	UserRepository repo;
+	
+	//launch results page showing all data
+	@GetMapping("/viewAll")
+	public String viewAllBudget(@ModelAttribute("user") User user, Model model) {
+		model.addAttribute("users", repo.findAll());
+		return "results";
+	}
+	
 	
 	@GetMapping("/addbudget")
 	public String addBudgetForm(@ModelAttribute("user") User user) 
@@ -50,4 +61,22 @@ public class WebController {
 		return "index"; 
 	}
 
+	//launch for editing expense
+	@GetMapping("/editExpense/{id}")
+	public String editExpenseForm(@PathVariable("id") long id, Model model) {
+		User usr = repo.findById(id).orElse(null);
+		if(usr == null) return "error"; // error page goes here
+		model.addAttribute("user", usr);
+		return "edit-user"; 
+	}
+	
+	@PostMapping("/saveExpense")
+	public String saveExpenseForm(@ModelAttribute("user") User user, Model model)
+	{
+		repo.save(user);
+		model.addAttribute("user", user);
+		return "results"; 
+	}
+	
+	
 }
