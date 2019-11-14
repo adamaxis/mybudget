@@ -86,5 +86,13 @@ public class WebController {
 		return "results"; 
 	}
 	
+	@GetMapping("/deleteExpense/{id}")
+	public String deleteExpenseForm(@PathVariable("id") long id, Model model) {
+		User usr = repo.findById(id).orElse(null);
+		if(usr == null) return "error"; // error page goes here
+		repo.delete(usr);
+		model.addAttribute("users", repo.findAll());
+		return "results"; 
+	}
 	
 }
