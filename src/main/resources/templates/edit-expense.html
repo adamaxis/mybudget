@@ -4,15 +4,16 @@
 <title>Update Budget</title>
 </head>
 <body>
-<form name="editExpense" th:action="@{/saveExpense}" th:object="${expense}" method="post">
+<form action="#" th:action="@{/saveExpense}" th:object="${user}" method="post">
 	<!-- FOR THE USER -->
 	<div>
-		<input type="hidden" name="user_id" th:value="${expense.expense_id}" />
-		Name:<input type="text" name="name" th:value="${expense.name}"/> <br />
-	   	Amount:<input type="text" name="amount" th:value="${expense.amount}" /> <br />
-	   	Category:<input type="text" name="category" th:value="${expense.category}" /> <br />
-	  	Date:<input type="date" name="date_time" th:value="${expense.date_time}" /> <br />
-	   	
+		<th:block th:each="expense : ${user.expenses}">
+		<input type="hidden" name="expense_id" th:field="*{expense_id}" />
+		Name:<input type="text" name="name" th:field="*{name}"/> <br />
+	   	Amount:<input type="text" name="amount" th:field="*{amount}" /> <br />
+	   	Category:<input type="text" name="category" th:field="*{category}" /> <br />
+	  	Date:<input type="date" name="date_time" th:field="*{date_time}" /> <br />
+		</th:block>
 	</div>
 	<!--SUBMIT FORM BUTTON-->
 	<div class="row text-right">
