@@ -1,5 +1,6 @@
 package mybudget.controller;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -7,6 +8,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import mybudget.beans.User;
 import mybudget.repository.UserRepository;
@@ -23,7 +28,7 @@ public class WebController {
 
 	@Autowired
 	UserRepository repo;
-	
+
 	//launch results page showing all data
 	@GetMapping("/viewAll")
 	public String viewAllBudget(@ModelAttribute("user") User user, Model model) {
@@ -54,6 +59,30 @@ public class WebController {
 		model.addAttribute("user", usr);
 		return "edit-user"; 
 	}
+	
+	@GetMapping("/searchForUser")
+	public String searchForUser(Model model) 
+	{
+		return "search-for-user"; 
+	}
+	
+	@RequestMapping(value = "/searchForUser", method = RequestMethod.POST)
+	public String saveUserForm(Model model, @RequestParam(value="searchText") String searchText, @RequestParam(value="searchType") String searchType)
+	{
+		List<User> users = null;
+		if(searchType.equals("first_name")) {
+			users = repo.findByFirstName(searchText);
+		} else if(searchType.equals("last_name")) {
+			users = repo.findByLastName(searchText);
+		} else if(searchType.equals("email")) {
+			users = repo.findByEmail(searchText);
+		}
+		
+		if(users == null) return "error";
+		model.addAttribute("users", users);
+		return "results"; 
+	}
+	
 
 	@PostMapping("/saveuser")
 	public String saveUserForm(@ModelAttribute("user") User user, Model model)
@@ -94,5 +123,7 @@ public class WebController {
 		model.addAttribute("users", repo.findAll());
 		return "results"; 
 	}
+	
+	
 	
 }
