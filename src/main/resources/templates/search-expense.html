@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Search for expense</title>
+</head>
+<body>
+<h2>Search for an expense...</h2>
+<form action="/searchExpense" method="post">
+	<div>
+		Search by:<select name="searchType">
+		<option value="name">Name</option>
+		<option value="category">Category</option>
+		
+		</select>
+		<input type="text" name="searchText"></input>
+	</div>
+	<div class="row text-right">
+	    <div class="col">
+	        <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+	    </div>
+	</div>
+</form>
+
+</body>
+</html>
+
