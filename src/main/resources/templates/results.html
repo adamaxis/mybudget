@@ -13,11 +13,14 @@
 		<td th:text="${currentUser.date}" />
 		<td th:text="${currentUser.budget_amount}" />
 		<th:block th:each="currentExpense : ${currentUser.expenses}">
-				<td th:text="${currentExpense.expense_id}" />
 				<td th:text="${currentExpense.name}" />
 				<td th:text="${currentExpense.amount}" />
 				<td th:text="${currentExpense.category.name}" />
 				<td th:text="${currentExpense.date_time}" />
+		<td><a th:href="@{/edituser/{id}(id=${currentUser.user_id})}">Edit User</a></td>
+		<td><a th:href="@{/editExpense/{id}(id=${currentExpense.expense_id})}">Edit Expense</a></td>
+		<td><a th:href="@{/deleteExpense/{id}(id=${currentUser.user_id})}">Delete Expense</a></td>
+		<td><a th:href="@{/addExpense/{id}(id=${currentUser.user_id})}">Add Expense</a></td>
 		</th:block>
 </tr>
 </table>

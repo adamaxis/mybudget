@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import mybudget.beans.Expense;
 import mybudget.beans.User;
 import mybudget.repository.UserRepository;
 
@@ -115,7 +117,33 @@ public class WebController {
 		return "results"; 
 	}
 	
+	@GetMapping("/deleteExpense/{id}")
+	public String deleteExpenseForm(@PathVariable("id") long id, Model model) {
+		User usr = repo.findById(id).orElse(null);
+		if(usr == null) return "error"; // error page goes here
+		repo.delete(usr);
+		model.addAttribute("users", repo.findAll());
+		return "results"; 
+	}
 	
+	@GetMapping("/searchExpense")
+	public String searchExpense(Model model) 
+	{
+		return "search-expense"; 
+	}
 	
-	
+	@RequestMapping(value = "/searchExpense", method = RequestMethod.POST)
+	public String saveExpenseForm(Model model, @RequestParam(value="searchText") String searchText, @RequestParam(value="searchType") String searchType)
+	{	
+		List<Expense> exp = null;
+		if(searchType.equals("name")) {
+			exp = repo.findByName(searchText);
+		} else if(searchType.equals("category")) {
+			exp = repo.findByCategory(searchText);
+		}
+		
+		if(exp == null) return "error";
+		model.addAttribute("exp", exp);
+		return "results"; 
+	}
 }
