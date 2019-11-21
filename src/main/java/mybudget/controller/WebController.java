@@ -120,21 +120,24 @@ public class WebController {
 
 @PostMapping("editExpense/{id}")
 public String editExpense(@PathVariable long id, @ModelAttribute("user") User user, Model model) {
-
-    user.printAll();
-    repo.save(user);
-
+	user.printAll();
+	User usr = repo.findById(id).orElse(null);
+	if (usr == null)
+		return "error"; // error page goes here
+	usr.setExpenses(user.getExpenses());
+    repo.save(usr);
+    model.addAttribute("users", usr);
     return "results";
 }
 
 
 @RequestMapping(path = "editExpense/{id}", method = RequestMethod.GET)
 public String document(@PathVariable long id, Model model) {
-
-	User us = repo.findById(id).orElse(null);
-
+	User usr = repo.findById(id).orElse(null);
+	if (usr == null)
+		return "error"; // error page goes here
     model.addAttribute("id", id);
-    model.addAttribute("user", us);
+    model.addAttribute("user", usr);
 
     return "edit-expense";
 }
