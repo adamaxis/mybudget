@@ -101,7 +101,17 @@ public class User {
 	public void setExpenses(List<Expense> expenses) {
 		this.expenses = expenses;
 	}
-
+	
+	public Expense getExpense(int i) {
+		return expenses.get(i);
+	}
+	
+	public void printAll() {
+        for (Expense e : getExpenses()) {
+            System.out.println(e.toString());
+        }
+	}
+	
 	@Override
 	public String toString() {
 		return "User [user_id=" + user_id + ", first_name=" + first_name + ", last_name=" + last_name + ", email="

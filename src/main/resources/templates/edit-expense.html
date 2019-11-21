@@ -5,21 +5,25 @@
 </head>
 <body>
 <h2>Edit Expense</h2>
-<form name="editExpense" th:action="@{/saveExpense}" th:object="${user}" method="post">
+<form action="#" method="post" th:action="@{/editExpense/{id}(id=${user_id})}" th:object="${user}">
+    <h1 th:text="${user_id}">Expense</h1>
 	<!-- FOR THE USER -->
-	<div>
-	   <h4>Expense</h4>
-		<br />
-		<fieldset id="expenses">
-		<div th:each=", stat : ${user.expenses}">
-		<input type="hidden" name="expense_id" th:field="*{user.expenses[__${status.index}__].expense_id}" />
-		Name:<input type="text" name="name" th:field="*{user.expenses[__${status.index}__].name}"/> <br />
-	   	Amount:<input type="number" name="amount" th:field="*{user.expenses[__${status.index}__].amount}" /> <br />
-	   	Category:<input type="text" name="category" th:field="*{user.expenses[__${status.index}__].category.name}" /> <br />
-	   	Date:<input type="date" name="date_time" th:field="*{user.expenses[__${status.index}__].date_time}" /> <br />
-	   	</div>
-	   	</fieldset>
-	</div>
+
+<table class="table table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Amount</th>
+        </tr>
+        <tr th:each="expenseItem: ${user.expenses}">
+            <td th:text="${expenseItem.name}">Name</td>
+            <td>
+                <input th:field="*{expenses[__${status.index}__].amount}" />
+            </td>
+            <td th:text="${expenseItem.category}"> </td>
+        </tr>
+    </table>
+
 	<!--SUBMIT FORM BUTTON-->
 	<div class="row text-right">
 	    <div class="col">
