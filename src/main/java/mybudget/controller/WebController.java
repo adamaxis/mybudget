@@ -40,6 +40,15 @@ public class WebController {
 		model.addAttribute("users", repo.findAll());
 		return "results";
 	}
+	
+	@GetMapping("/editbudget/{id}")
+	public String editBudgetForm(@PathVariable("id") long id, Model model) {
+		User usr = repo.findById(id).orElse(null);
+		if (usr == null)
+			return "error";
+		model.addAttribute("user", usr);
+		return "edit-budget";
+	}
 
 	@GetMapping("/edituser/{id}")
 	public String editUserForm(@PathVariable("id") long id, Model model) {
