@@ -40,7 +40,7 @@ public class WebController {
 		model.addAttribute("users", repo.findAll());
 		return "results";
 	}
-	
+
 	@GetMapping("/editbudget/{id}")
 	public String editBudgetForm(@PathVariable("id") long id, Model model) {
 		User usr = repo.findById(id).orElse(null);
@@ -79,7 +79,7 @@ public class WebController {
 		if (users == null)
 			return "error";
 		model.addAttribute("users", users);
-		return "results";
+		return "user-view";
 	}
 
 	@PostMapping("/saveuser")
@@ -96,52 +96,29 @@ public class WebController {
 	 * entry.getValue());
 	 */
 
-	// launch for editing expense
-/*	@GetMapping("/editExpense/{id}")
-	public String editExpenseForm(@PathVariable("id") long id, Model model) {
+	@PostMapping("editExpense/{id}")
+	public String editExpense(@PathVariable long id, @ModelAttribute("user") User user, Model model) {
 		User usr = repo.findById(id).orElse(null);
 		if (usr == null)
 			return "error"; // error page goes here
-		model.addAttribute("user", usr);
-		return "edit-user";
-	}
-
-	@PostMapping("/saveExpense")
-	public String saveExpenseForm(@ModelAttribute("user") User user, Model model) {
-		repo.save(user);
-		model.addAttribute("user", user);
+		usr.setExpenses(user.getExpenses());
+		repo.save(usr);
+		model.addAttribute("users", usr);
 		return "results";
 	}
-*/
 
+	@RequestMapping(path = "editExpense/{id}", method = RequestMethod.GET)
+	public String document(@PathVariable long id, Model model) {
+		User usr = repo.findById(id).orElse(null);
+		if (usr == null)
+			return "error"; // error page goes here
+		model.addAttribute("id", id);
+		model.addAttribute("user", usr);
+		return "edit-expense";
+	}
 
-@PostMapping("editExpense/{id}")
-public String editExpense(@PathVariable long id, @ModelAttribute("user") User user, Model model) {
-	user.printAll();
-	User usr = repo.findById(id).orElse(null);
-	if (usr == null)
-		return "error"; // error page goes here
-	usr.setExpenses(user.getExpenses());
-    repo.save(usr);
-    model.addAttribute("users", usr);
-    return "results";
-}
-
-
-@RequestMapping(path = "editExpense/{id}", method = RequestMethod.GET)
-public String document(@PathVariable long id, Model model) {
-	User usr = repo.findById(id).orElse(null);
-	if (usr == null)
-		return "error"; // error page goes here
-    model.addAttribute("id", id);
-    model.addAttribute("user", usr);
-
-    return "edit-expense";
-}
-	
-	
-	@GetMapping("/deleteExpense/{id}")
-	public String deleteExpenseForm(@PathVariable("id") long id, Model model) {
+	@GetMapping("/deleteBudget/{id}")
+	public String deleteBudgetForm(@PathVariable("id") long id, Model model) {
 		User usr = repo.findById(id).orElse(null);
 		if (usr == null)
 			return "error"; // error page goes here
