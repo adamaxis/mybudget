@@ -107,12 +107,11 @@ public class User {
 	}
 	
 	public double getBalance() {
-		double totalAmount = 0;	
-		for (int i = 0; i < expenses.size() - 1; i++) {
-			double e_amount = expenses.get(i).getAmount();
-			totalAmount=e_amount++;
+		double balance = 0, totalExpense = 0;
+		for( int i = 0 ;  i < getExpenses().size() ; i++ ) {
+			totalExpense += expenses.get(i).getAmount();
 		}
-		double balance = budget_amount - totalAmount;
+		balance =  budget_amount - totalExpense;
 		return balance;
 	}	
 	
