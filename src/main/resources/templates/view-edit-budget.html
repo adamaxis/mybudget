@@ -1,0 +1,109 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Edit budget</title>
+</head>
+<body>
+<h2>Edit User</h2>
+<form name="editBudget" th:action="@{/savebudget}" th:object="${user}" method="post">
+	<!-- FOR THE USER -->
+	<div>
+	   <h4>User</h4>
+		<br />
+		<input type="hidden" name="user_id" th:value="${user.user_id}" />
+		First Name:<input type="text" name="first_name" th:value="${user.first_name}"/> <br />
+	   	Last Name:<input type="text" name="last_name" th:value="${user.last_name}" /> <br />
+	   	Email:<input type="text" name="email" th:value="${user.email}" /> <br />
+	   	Birth Date:<input type="date" name="date" th:value="${user.date}" /> <br />
+	   	Your Budget $:<input type="text" name="budget_amount" th:value="${user.budget_amount}" /> <br />
+	   	
+	</div>
+	
+	<h3>Expenses</h3>
+	<div id="expenseList">
+	    <div class="row">
+	        <!-- <div class="col form-group d-none">Name</div>
+	        <div class="col form-group">Amount</div>
+	        <div class="col form-group">Category</div>
+	        <div class="col form-group">Date</div> -->
+	    </div>
+	    <div class="row item" th:each="expense, status : ${user.expenses}">
+	    	<!-- NAME -->
+	    	<div class="col form-group d-none">Name</div>
+	    	<div class="col form-group">
+	            <input th:field="*{expenses[__${status.index}__].name}" type="text" class="form-control">
+	        </div>
+	        <!-- AMOUNT -->
+	        <div class="col form-group">Amount</div>
+	        <div class="col form-group">
+	            <input th:field="*{expenses[__${status.index}__].amount}" type="number" class="form-control">
+	        </div>
+	        <!-- CATEGORY -->
+	        <div class="col form-group">Category</div>
+	        <div class="col form-group">
+	            <input th:field="*{expenses[__${status.index}__].category.name}" type="text" class="form-control">
+	        </div>
+	        <!-- DATE -->
+	        <div class="col form-group">Date</div>
+	        <div class="col form-group d-none">
+	            <input th:field="*{expenses[__${status.index}__].date_time}" type="date" class="form-control">
+	        </div>
+	        <hr />
+	    </div>
+	</div>
+	
+	<h3>Total available</h3>
+	<!-- <div th:field="${totalBudget}"></div> -->
+	<div th:object="${budget}">
+		<!-- <input type="text" name="totalBudget" th:value="${budget.totalBudget}"/> <br /> -->
+	</div>
+
+	<!--add new row button-->
+	<div class="row">
+	    <div class="col">
+	        <button type="button" class="btn btn-success" onclick="addRow()">Add row</button>
+	    </div>
+	</div>
+	
+	<!--SUBMIT FORM BUTTON-->
+	<div class="row text-right">
+	    <div class="col">
+	        <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+	    </div>
+	</div>
+</form>
+
+</body>
+<script type="text/javascript">
+	let addRow = function () {
+	    let listName = 'expenses'; 
+	    let fieldsNames = ['name', 'amount', 'category.name', 'date_time']; //field names from Expense
+	    let rowIndex = document.querySelectorAll('.item').length; //we can add mock class to each recipe-row
+	
+	    let row = document.createElement('div');
+	    row.classList.add('row', 'item');
+	    let line = document.createElement('hr');
+	
+	    fieldsNames.forEach((fieldName) => {
+	        let col = document.createElement('div');
+	        col.classList.add('col', 'form-group');
+	
+	        let input = document.createElement('input');
+	        if(fieldName == "date_time") input.type = 'date';
+	        else if(fieldName == 'amount') input.type = 'number';
+	        else input.type = 'text';
+	        input.classList.add('form-control');
+	        input.id = listName + rowIndex + '.' + fieldName;
+	        input.setAttribute('name', listName + '[' + rowIndex + '].' + fieldName);
+	
+	        row.append(fieldName);
+	        col.appendChild(input);
+	        row.appendChild(col);
+	        row.appendChild(line);
+	    });
+	
+	    document.getElementById('expenseList').appendChild(row);
+	};
+</script>
+</html>
+
