@@ -2,9 +2,38 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link href="tables.css" rel="stylesheet" type="text/css">
 <title>View All Budget</title>
 </head>
 <table>
+		<tr>
+	 		<th></th>
+	 		<th>User</th>
+	 		<th>Email</th>
+	 		<th>Date</th>
+	 		<th>Amount</th>
+	 		<th>View Budget/Details</th>
+	 		<th>Delete</th>
+	 		<th>Add</th>
+	 		<th>Edit</th>
+		</tr>
+		<tr th:each="currentUser : ${users}">
+				<td><input type="radio" th:value="${currentUser.user_id}" /></td>
+				<td th:text="${currentUser.first_name + ' ' + currentUser.last_name}"/>
+				<td th:text="${currentUser.email}" />
+				<td th:text="${currentUser.date}" />
+				<td th:text="${'$ ' + currentUser.budget_amount}" />
+				<th:block th:each="currentExpense : ${currentUser.expenses}">
+				</th:block>
+				<td><a th:href="@{/viewEditbudget/{id}(id=${currentUser.user_id})}">View Details/Edit</a></td>
+				<td><a th:href="@{/deleteExpense/{id}(id=${currentUser.user_id})}">Delete User</a></td>
+				<td><a th:href="@{/addExpense/{id}(id=${currentUser.user_id})}">New Expense</a></td>
+				<td><a th:href="@{/edituser/{id}(id=${currentUser.user_id})}">Edit User</a></td>
+		</tr>
+	</table>
+<table>
+
+
 <tr th:each="currentUser : ${users}">
 		<td th:text="${currentUser.user_id}" />
 		<td th:text="${currentUser.first_name}" />
