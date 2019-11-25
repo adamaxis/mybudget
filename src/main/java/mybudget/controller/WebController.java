@@ -42,12 +42,20 @@ public class WebController {
 	}
 
 	@GetMapping("/editbudget/{id}")
-	public String editBudgetForm(@PathVariable("id") long id, Model model) {
-		User usr = repo.findById(id).orElse(null);
-		if (usr == null)
+	public String viewEditBudgetForm(@PathVariable("id") long id, Model model) {
+		double totalBudget = 0, totalExpense = 0;
+		User user = repo.findById(id).orElse(null);
+		if (user == null)
 			return "error";
-		model.addAttribute("user", usr);
-		return "edit-budget";
+		
+		for( int i = 0 ;  i < user.getExpenses().size() ; i++ ) {
+			totalExpense =+ user.getExpense(i).getAmount();
+		}
+		totalBudget = totalExpense - user.getBudget_amount();
+		
+		model.addAttribute("user", user);
+		model.addAttribute("budget", totalBudget);
+		return "view-edit-budget";
 	}
 
 	@GetMapping("/edituser/{id}")
