@@ -4,7 +4,7 @@
 <title>Edit budget</title>
 </head>
 <body>
-<h2>Edit User</h2>
+<h2>Edit Budget</h2>
 <form name="editBudget" th:action="@{/savebudget}" th:object="${user}" method="post">
 	<!-- FOR THE USER -->
 	<div>
@@ -50,14 +50,11 @@
 	        </div>
 	        <hr />
 	    </div>
+	    
+	    <h3>Balance</h3>
+		<input type="text" name="getBalance()" th:value="${user.getBalance()}" edit="false"/> <br />
 	</div>
 	
-	<h3>Total available</h3>
-	<!-- <div th:field="${totalBudget}"></div> -->
-	<div th:object="${budget}">
-		<!-- <input type="text" name="totalBudget" th:value="${budget.totalBudget}"/> <br /> -->
-	</div>
-
 	<!--add new row button-->
 	<div class="row">
 	    <div class="col">
@@ -72,6 +69,8 @@
 	    </div>
 	</div>
 </form>
+
+<a href="/viewAll">View all budget</a>
 
 </body>
 <script type="text/javascript">
