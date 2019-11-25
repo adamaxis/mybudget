@@ -26,7 +26,7 @@
 				<th:block th:each="currentExpense : ${currentUser.expenses}">
 				</th:block>
 				<td><a th:href="@{/editbudget/{id}(id=${currentUser.user_id})}">View Details/Edit</a></td>
-				<td><a th:href="@{/deleteExpense/{id}(id=${currentUser.user_id})}">Delete User</a></td>
+				<td><a th:href="@{/deleteBudget/{id}(id=${currentUser.user_id})}">Delete</a></td>
 				<td><a th:href="@{/addExpense/{id}(id=${currentUser.user_id})}">New Expense</a></td>
 				<td><a th:href="@{/edituser/{id}(id=${currentUser.user_id})}">Edit User</a></td>
 		</tr>
