@@ -54,9 +54,6 @@ public class WebController {
 			 user.setUser_id(id);
 			 return "view-edit-budget";
 		}
-		Map<String, Object> y = model.asMap(); for (Entry<String, Object> entry :
-		y.entrySet()) System.out.println("Key = " + entry.getKey() + ", Value = " +
-		entry.getValue());
 		user.setUser_id(id);
 		
 		repo.save(user);
