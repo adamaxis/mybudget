@@ -31,6 +31,7 @@
 	    	<!-- NAME -->
 	    	<div class="col form-group d-none">Name</div>
 	    	<div class="col form-group">
+	    		<input th:field="*{expenses[__${status.index}__].expense_id}" type="hidden" class="form-control">
 	            <input th:field="*{expenses[__${status.index}__].name}" type="text" class="form-control">
 	        </div>
 	        <!-- AMOUNT -->
@@ -42,6 +43,7 @@
 	        <div class="col form-group">Category</div>
 	        <div class="col form-group">
 	            <input th:field="*{expenses[__${status.index}__].category.name}" type="text" class="form-control">
+	            <input th:field="*{expenses[__${status.index}__].category.category_id}" type="hidden" class="form-control">
 	        </div>
 	        <!-- DATE -->
 	        <div class="col form-group">Date</div>

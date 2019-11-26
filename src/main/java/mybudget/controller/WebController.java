@@ -1,6 +1,8 @@
 package mybudget.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.validation.Valid;
 
@@ -52,6 +54,9 @@ public class WebController {
 			 user.setUser_id(id);
 			 return "view-edit-budget";
 		}
+		Map<String, Object> y = model.asMap(); for (Entry<String, Object> entry :
+		y.entrySet()) System.out.println("Key = " + entry.getKey() + ", Value = " +
+		entry.getValue());
 		user.setUser_id(id);
 		
 		repo.save(user);
@@ -65,7 +70,6 @@ public class WebController {
 		User user = repo.findById(id).orElse(null);
 		if (user == null)
 			return "error";
-		
 		model.addAttribute("user", user);
 		return "view-edit-budget";
 	}
