@@ -106,11 +106,14 @@ public class User {
 		return expenses.get(i);
 	}
 	
-	public void printAll() {
-        for (Expense e : getExpenses()) {
-            System.out.println(e.toString());
-        }
-	}
+	public double getBalance() {
+		double balance = 0, totalExpense = 0;
+		for( int i = 0 ;  i < getExpenses().size() ; i++ ) {
+			totalExpense += expenses.get(i).getAmount();
+		}
+		balance =  budget_amount - totalExpense;
+		return balance;
+	}	
 	
 	@Override
 	public String toString() {

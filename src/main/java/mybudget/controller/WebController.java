@@ -1,16 +1,10 @@
 package mybudget.controller;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.aspectj.bridge.Message;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-import mybudget.beans.Expense;
 import mybudget.beans.User;
 import mybudget.repository.UserRepository;
 
@@ -49,8 +41,33 @@ public class WebController {
 	@PostMapping("/savebudget")
 	public String saveUserBudget(@ModelAttribute("user") User user, Model model) {
 		repo.save(user);
-		model.addAttribute("user", repo.findAll());
+		model.addAttribute("users", repo.findAll());
 		return "results";
+	}
+	
+	@PostMapping("/updatebudget/{id}")
+	public String updateUserBudget(@PathVariable("id") long id, @Valid User user, BindingResult result, Model model) {
+		
+		if (result.hasErrors()) {
+			 user.setUser_id(id);
+			 return "view-edit-budget";
+		}
+		user.setUser_id(id);
+		
+		repo.save(user);
+		model.addAttribute("users", repo.findAll());
+		
+		return "results";
+	}
+
+	@GetMapping("/editbudget/{id}")
+	public String viewEditBudgetForm(@PathVariable("id") long id, Model model) {
+		User user = repo.findById(id).orElse(null);
+		if (user == null)
+			return "error";
+		
+		model.addAttribute("user", user);
+		return "view-edit-budget";
 	}
 
 	@GetMapping("/edituser/{id}")
@@ -82,7 +99,7 @@ public class WebController {
 		if (users == null)
 			return "error";
 		model.addAttribute("users", users);
-		return "results";
+		return "user-view";
 	}
 
 	@PostMapping("/saveuser")
@@ -99,52 +116,29 @@ public class WebController {
 	 * entry.getValue());
 	 */
 
-	// launch for editing expense
-/*	@GetMapping("/editExpense/{id}")
-	public String editExpenseForm(@PathVariable("id") long id, Model model) {
+	@PostMapping("editExpense/{id}")
+	public String editExpense(@PathVariable long id, @ModelAttribute("user") User user, Model model) {
 		User usr = repo.findById(id).orElse(null);
 		if (usr == null)
 			return "error"; // error page goes here
-		model.addAttribute("user", usr);
-		return "edit-user";
-	}
-
-	@PostMapping("/saveExpense")
-	public String saveExpenseForm(@ModelAttribute("user") User user, Model model) {
-		repo.save(user);
-		model.addAttribute("user", user);
+		usr.setExpenses(user.getExpenses());
+		repo.save(usr);
+		model.addAttribute("users", usr);
 		return "results";
 	}
-*/
 
+	@RequestMapping(path = "editExpense/{id}", method = RequestMethod.GET)
+	public String document(@PathVariable long id, Model model) {
+		User usr = repo.findById(id).orElse(null);
+		if (usr == null)
+			return "error"; // error page goes here
+		model.addAttribute("id", id);
+		model.addAttribute("user", usr);
+		return "edit-expense";
+	}
 
-@PostMapping("editExpense/{id}")
-public String editExpense(@PathVariable long id, @ModelAttribute("user") User user, Model model) {
-	user.printAll();
-	User usr = repo.findById(id).orElse(null);
-	if (usr == null)
-		return "error"; // error page goes here
-	usr.setExpenses(user.getExpenses());
-    repo.save(usr);
-    model.addAttribute("users", usr);
-    return "results";
-}
-
-
-@RequestMapping(path = "editExpense/{id}", method = RequestMethod.GET)
-public String document(@PathVariable long id, Model model) {
-	User usr = repo.findById(id).orElse(null);
-	if (usr == null)
-		return "error"; // error page goes here
-    model.addAttribute("id", id);
-    model.addAttribute("user", usr);
-
-    return "edit-expense";
-}
-	
-	
-	@GetMapping("/deleteExpense/{id}")
-	public String deleteExpenseForm(@PathVariable("id") long id, Model model) {
+	@GetMapping("/deleteBudget/{id}")
+	public String deleteBudgetForm(@PathVariable("id") long id, Model model) {
 		User usr = repo.findById(id).orElse(null);
 		if (usr == null)
 			return "error"; // error page goes here

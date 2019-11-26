@@ -1,26 +1,28 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Create new budget</title>
+<title>Edit budget</title>
 </head>
 <body>
-<h2>Create Budget</h2>
-<form name="budget" th:action="@{/savebudget}" th:object="${user}" method="post">
+<h2>Budget</h2>
+<form name="updateBudget" th:action="@{/updatebudget/{id}(id=${user.user_id})}" th:object="${user}" method="post">
 	<!-- FOR THE USER -->
 	<div>
 	   <h4>User</h4>
 		<br />
-		First Name:<input type="text" name="first_name" /> <br />
-	   	Last Name:<input type="text" name="last_name" /> <br />
-	   	Email:<input type="text" name="email" /> <br />
-	   	Date-month:<input type="date" name="date" /> <br />
-	   	Your Budget $:<input type="number" name="budget_amount" /> <br />
+		<input type="hidden" name="user_id" th:value="${user.user_id}" />
+		First Name:<input type="text" name="first_name" th:value="${user.first_name}"/> <br />
+	   	Last Name:<input type="text" name="last_name" th:value="${user.last_name}" /> <br />
+	   	Email:<input type="text" name="email" th:value="${user.email}" /> <br />
+	   	Birth Date:<input type="date" name="date" th:value="${user.date}" /> <br />
+	   	Your Budget $:<input type="text" name="budget_amount" th:value="${user.budget_amount}" /> <br />
 	   	
 	</div>
+	
 	<h3>Expenses</h3>
 	<div id="expenseList">
 	    <div class="row">
-	       <!--  <div class="col form-group d-none">Name</div>
+	        <!-- <div class="col form-group d-none">Name</div>
 	        <div class="col form-group">Amount</div>
 	        <div class="col form-group">Category</div>
 	        <div class="col form-group">Date</div> -->
@@ -46,9 +48,13 @@
 	        <div class="col form-group d-none">
 	            <input th:field="*{expenses[__${status.index}__].date_time}" type="date" class="form-control">
 	        </div>
+	        <hr />
 	    </div>
+	    
+	    <h3>Balance</h3>
+		<input type="text" name="getBalance()" th:value="${user.getBalance()}" edit="false"/> <br />
 	</div>
-
+	
 	<!--add new row button-->
 	<div class="row">
 	    <div class="col">
@@ -64,40 +70,32 @@
 	</div>
 </form>
 
+<a href="/viewAll">View all budget</a>
+
 </body>
 <script type="text/javascript">
 	let addRow = function () {
 	    let listName = 'expenses'; 
 	    let fieldsNames = ['name', 'amount', 'category.name', 'date_time']; //field names from Expense
-	    let rowIndex = document.querySelectorAll('.item').length; //we can add mock class to each row
-	    let names = ['Expense', 'Amount', 'Category', 'Date'];
-	    
+	    let rowIndex = document.querySelectorAll('.item').length; //we can add mock class to each recipe-row
+	
 	    let row = document.createElement('div');
 	    row.classList.add('row', 'item');
 	    let line = document.createElement('hr');
-		
-	    // create function that loops through fielname in all fieldnames
+	
 	    fieldsNames.forEach((fieldName) => {
-	    	// create column div
 	        let col = document.createElement('div');
 	        col.classList.add('col', 'form-group');
-	        
-	        
-	     // create name field
-	        /* let h3 = document.createElement('h3');
-	        h3.append(fieldName.toUpperCase()); */
-	        
-	        // create input fields
+	
 	        let input = document.createElement('input');
-	        
-	        if(fieldName == "date_time") input.type = 'date'; // set the input type to date if is date
-	        else if(fieldName == 'amount') input.type = 'number'; // set the input type to number if is amount
-	        else input.type = 'text'; // or set the input type to text
+	        if(fieldName == "date_time") input.type = 'date';
+	        else if(fieldName == 'amount') input.type = 'number';
+	        else input.type = 'text';
 	        input.classList.add('form-control');
 	        input.id = listName + rowIndex + '.' + fieldName;
 	        input.setAttribute('name', listName + '[' + rowIndex + '].' + fieldName);
 	
-	        row.append(fieldName.toUpperCase());
+	        row.append(fieldName);
 	        col.appendChild(input);
 	        row.appendChild(col);
 	        row.appendChild(line);

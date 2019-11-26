@@ -10,18 +10,13 @@
 	<!-- FOR THE USER -->
 
 <table class="table table-striped">
-        <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Amount</th>
-        </tr>
         <tr th:each="expenseItem, status : ${user.expenses}">
 			<input type="hidden" th:field="*{expenses[__${status.index}__].expense_id}">
-            <td> <input th:field="*{expenses[__${status.index}__].name}">Name</td>
-			<td> <input th:field="*{expenses[__${status.index}__].date_time}" type="date">Date</td>
-            <td> <input th:field="*{expenses[__${status.index}__].category.name}">Category</td>
+            <td> Name <input th:field="*{expenses[__${status.index}__].name}"></td>
+			<td> Date <input th:field="*{expenses[__${status.index}__].date_time}" type="date"></td>
+            <td> Category <input th:field="*{expenses[__${status.index}__].category.name}"></td>
            	<input type="hidden" th:field="*{expenses[__${status.index}__].category.category_id}">
-			<td> <input th:field="*{expenses[__${status.index}__].amount}" /> </td>
+			<td> Amount <input th:field="*{expenses[__${status.index}__].amount}" /> </td>
         </tr>
     </table>
 
