@@ -1,9 +1,13 @@
 package mybudget.controller;
 
 import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +42,21 @@ public class WebController {
 	public String saveUserBudget(@ModelAttribute("user") User user, Model model) {
 		repo.save(user);
 		model.addAttribute("users", repo.findAll());
+		return "results";
+	}
+	
+	@PostMapping("/updatebudget/{id}")
+	public String updateUserBudget(@PathVariable("id") long id, @Valid User user, BindingResult result, Model model) {
+		
+		if (result.hasErrors()) {
+			 user.setUser_id(id);
+			 return "view-edit-budget";
+		}
+		user.setUser_id(id);
+		
+		repo.save(user);
+		model.addAttribute("users", repo.findAll());
+		
 		return "results";
 	}
 

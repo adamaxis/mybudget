@@ -4,8 +4,8 @@
 <title>Edit budget</title>
 </head>
 <body>
-<h2>Edit Budget</h2>
-<form name="editBudget" th:action="@{/savebudget}" th:object="${user}" method="post">
+<h2>Budget</h2>
+<form name="updateBudget" th:action="@{/updatebudget/{id}(id=${user.user_id})}" th:object="${user}" method="post">
 	<!-- FOR THE USER -->
 	<div>
 	   <h4>User</h4>
