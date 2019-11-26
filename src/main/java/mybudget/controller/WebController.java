@@ -1,6 +1,8 @@
 package mybudget.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.validation.Valid;
 
@@ -65,7 +67,6 @@ public class WebController {
 		User user = repo.findById(id).orElse(null);
 		if (user == null)
 			return "error";
-		
 		model.addAttribute("user", user);
 		return "view-edit-budget";
 	}
