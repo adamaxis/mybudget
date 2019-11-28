@@ -26,4 +26,5 @@ public interface UserRepository extends JpaRepository<User,Long>{
 	  List<Expense> findByName(@Param("name") String name);
 	  @Query("select e from Expense e where e.category = :category")
 	  List<Expense> findByCategory(@Param("category") String category);
+
 }

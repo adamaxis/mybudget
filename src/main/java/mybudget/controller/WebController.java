@@ -52,6 +52,7 @@ public class WebController {
 		
 		if (result.hasErrors()) {
 			 user.setUser_id(id);
+			 System.out.println("ERROR");
 			 return "view-edit-budget";
 		}
 		user.setUser_id(id);
@@ -59,7 +60,7 @@ public class WebController {
 		repo.save(user);
 		model.addAttribute("users", repo.findAll());
 		
-		return "results";
+		return "view-edit-budget";
 	}
 
 	@GetMapping("/editbudget/{id}")
