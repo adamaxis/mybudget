@@ -116,8 +116,10 @@ public class User {
 	}
 	
 	public double getPercent() {
-		double available = getBalance();
-		double percent = (available / budget_amount) * 100;
+			double available = getBalance();
+			Double percent = (available / budget_amount) * 100;
+		System.out.print(percent);
+		if(percent.isInfinite()) return 0;
 		return percent;
 	}
 	
