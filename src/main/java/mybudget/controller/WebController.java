@@ -52,6 +52,7 @@ public class WebController {
 		
 		if (result.hasErrors()) {
 			 user.setUser_id(id);
+			 System.out.println("ERROR");
 			 return "view-edit-budget";
 		}
 		user.setUser_id(id);

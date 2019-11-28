@@ -25,7 +25,7 @@ public class Expense {
 	private String name;
 	private double amount;
 	
-	@ManyToOne(cascade=CascadeType.PERSIST)
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "category_id")
 	private Category category;
 	
