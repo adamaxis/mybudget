@@ -68,9 +68,13 @@
 	</div>
 	
 	<div class="col"> 
-		<h3>Balance $: </h3> <!-- <span th:value="${user.getBalance()}"></span> -->
-		<input type="text" name="getBalance()" th:value="${user.getBalance()}"/> <br /> 
-	</div> 
+		<h3>Balance $: <!-- <span th:value="${user.getBalance()}"></span> -->
+		<input type="text" name="getBalance()" th:value="${user.getBalance()}"/> </h3><br />
+		<div class="progress">
+			<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" th:aria-valuenow="${user.getPercent()}" aria-valuemin="0" aria-valuemax="100" th:style="'width: '+${user.getPercent()}+'%'"></div>
+		</div>
+		<h1 th:text="${user.getPercent()}+'%'"></h1>
+	</div>
 	<br />
 	<div class="col">
 		<!--add new row button-->

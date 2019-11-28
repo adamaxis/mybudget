@@ -113,7 +113,13 @@ public class User {
 		}
 		balance =  budget_amount - totalExpense;
 		return balance;
-	}	
+	}
+	
+	public double getPercent() {
+		double available = getBalance();
+		double percent = (available / budget_amount) * 100;
+		return percent;
+	}
 	
 	@Override
 	public String toString() {

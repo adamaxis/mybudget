@@ -60,7 +60,7 @@ public class WebController {
 		repo.save(user);
 		model.addAttribute("users", repo.findAll());
 		
-		return "results";
+		return "view-edit-budget";
 	}
 
 	@GetMapping("/editbudget/{id}")
