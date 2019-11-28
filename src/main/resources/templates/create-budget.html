@@ -74,7 +74,7 @@
 <script type="text/javascript">
 let addRow = function () {
     let listName = 'expenses'; 
-    let fieldsNames = ['id','name', 'amount', 'category.category_id', 'category.name', 'date_time']; //field names from Expense
+    let fieldsNames = ['id','name', 'amount', 'category.name', 'date_time']; //field names from Expense
     let rowIndex = document.querySelectorAll('.item').length; //we can add mock class to each recipe-row
 
     let row = document.createElement('div');
@@ -89,7 +89,7 @@ let addRow = function () {
         if(fieldName == "date_time") input.type = 'date';
         else if(fieldName == 'amount') input.type = 'number';
         else if (fieldName === 'id') col.classList.add('d-none'); //field with id - hidden
-        else if (fieldName === 'category.category_id') col.classList.add('d-none'); 
+        //else if (fieldName === 'category.category_id') col.classList.add('d-none'); 
         else input.type = 'text';
         input.classList.add('form-control');
         input.id = listName + rowIndex + '.' + fieldName;
