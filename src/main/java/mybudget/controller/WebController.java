@@ -181,4 +181,27 @@ public class WebController {
 		model.addAttribute("users", exp);
 		return "results";
 	}
+	
+	@PostMapping("/addExpense/{id}")
+	public String addExpense(@PathVariable("id") long id, @Valid User user, BindingResult result, Model model) {	
+		if (result.hasErrors()) {
+			 user.setUser_id(id);
+			 System.out.println("ERROR");
+			 return "add-expense";
+		}
+		user.setUser_id(id);
+		
+		repo.save(user);
+		model.addAttribute("users", repo.findAll());		
+		return "results";
+	}
+
+	@GetMapping("/addExpense/{id}")
+	public String addExpense(@PathVariable("id") long id, Model model) {
+		User user = repo.findById(id).orElse(null);
+		if (user == null)
+			return "error";
+		model.addAttribute("user", user);
+		return "add-expense";
+	}
 }
