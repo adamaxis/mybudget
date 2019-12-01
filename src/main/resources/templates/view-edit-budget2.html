@@ -1,12 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <link rel="stylesheet" href="../css/bootstrap.min.css">   
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
 <script src="../js/bootstrap.min.js"></script> 
 <title>Edit budget</title>
 </head>
@@ -37,39 +32,38 @@
 			   </div>	
 			</div>
 			<hr />
-			<table id="expenses" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
-			  <thead>
-			    <tr >
-			      <th class="th-sm">Name</th>
-			      <th class="th-sm">Amount</th>
-			      <th class="th-sm">Category</th>
-			      <th class="th-sm">Date</th>
-			    </tr>
-			  </thead>
-			  <h3>Expenses</h3>
-			  <tbody>
-			    <tr class="r item" th:each="expense, status : ${user.expenses}">
-			      <td>
-					<p th:text="*{expenses[__${status.index}__].name}" style="display:none;"></p>
-			      	<input th:field="*{expenses[__${status.index}__].expense_id}" type="hidden" class="form-control">
-			      	<input th:field="*{expenses[__${status.index}__].name}" type="text" class="form-control">
-			      </td>
-			      <td>
-			      	<p th:text="*{expenses[__${status.index}__].amount}" style="display:none;"></p>
-			      	<input th:field="*{expenses[__${status.index}__].amount}" type="number" class="form-control">
-			      	<input th:field="*{expenses[__${status.index}__].category.category_id}" type="hidden" class="form-control">
-			      </td>
-			      <td>
-			      	<p th:text="*{expenses[__${status.index}__].category.name}" style="display:none;"></p>
-			      	<input th:field="*{expenses[__${status.index}__].category.name}" type="text" class="form-control">
-			      </td>
-			      <td>
-			      	<p th:text="*{expenses[__${status.index}__].date_time}" style="display:none;"></p>
-			      	<input th:field="*{expenses[__${status.index}__].date_time}" type="date" class="form-control">
-			      </td>
-			    </tr>
-			  </tbody>
-			</table>
+			
+			<div id="expenseList">
+				<h3>Expenses</h3>
+			    <div class="row">
+			    	<div class="col form-group d-none">Id</div>
+			        <div class="col form-group">Name</div>
+			        <div class="col form-group">Amount</div>
+			        <div class="col form-group">Category</div>
+			        <div class="col form-group">Date</div>
+			    </div>
+			    <div class="row item" th:each="expense, status : ${user.expenses}">
+			    	<div class="col form-group d-none" >
+			    		<input th:field="*{expenses[__${status.index}__].expense_id}" type="hidden" class="form-control">
+			        </div>
+			    	<div class="col form-group" >
+			            <input th:field="*{expenses[__${status.index}__].name}" type="text" class="form-control">
+			        </div>
+			        <div class="col form-group">
+			            <input th:field="*{expenses[__${status.index}__].amount}" type="number" class="form-control">
+			        </div>
+			        <div class="col form-group d-none">
+			        	<input th:field="*{expenses[__${status.index}__].category.category_id}" type="hidden" class="form-control">
+			        </div>
+			        <div class="col form-group">
+			        	<input th:field="*{expenses[__${status.index}__].category.name}" type="text" class="form-control">
+			        </div>
+			        <div class="col form-group">
+			            <input th:field="*{expenses[__${status.index}__].date_time}" type="date" class="form-control">
+			        </div>
+			        <hr />
+			    </div>
+			</div>
 			<hr />
 		</div>
 	</div>
@@ -99,11 +93,12 @@
 	    let listName = 'expenses'; 
 	    let fieldsNames = ['id','name', 'amount', 'category.name', 'date_time']; //field names from Expense
 	    let rowIndex = document.querySelectorAll('.item').length; //we can add mock class to each recipe-row
-	    let row = document.createElement('tr');
-	    row.classList.add(/*'row', */'item');
+	
+	    let row = document.createElement('div');
+	    row.classList.add('row', 'item');
 	
 	    fieldsNames.forEach((fieldName) => {
-	        let col = document.createElement('td');
+	        let col = document.createElement('div');
 	        col.classList.add('col', 'form-group');
 	
 	        let input = document.createElement('input');
@@ -121,15 +116,7 @@
 	        row.appendChild(col);
 	    });
 	
-	    document.getElementById('expenses').appendChild(row);
+	    document.getElementById('expenseList').appendChild(row);
 	};
-	$(document).ready(function() {
-	    $('#expenses').DataTable({
-	    	'lengthChange': false,
-	    	'paging': false,
-	    	'searching': false
-	    });
-	} );
 </script>
 </html>
-
