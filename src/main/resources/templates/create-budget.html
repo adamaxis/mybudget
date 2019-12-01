@@ -3,55 +3,48 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../css/bootstrap.min.css">   
 <script src="../js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/tables.css">
 <title>Create new budget</title>
 </head>
-<body>
+<body onLoad="date()">
+<h5 class="date" id="date"></h5>
 <div class="col">
-	<h2>Create Budget</h2>
+	<h2 class="title">Create Budget</h2>
 </div>
-<hr />
 <form name="budget" th:action="@{/saveBudget}" th:object="${user}" method="post">
 	<div class="col">
-		<!-- FOR THE USER -->
 		<div class="row">
 	       	<div class="col form-group">
-			   <h4>User</h4>
-				<input type="hidden" name="user_id" th:value="${user.user_id}" />
-				<label for="first_name">First Name:</label>
-				<input type="text" name="first_name" th:value="${user.first_name}"/> 
+			   <h3 class="subtitle">User</h3>
+				<label for="first_name" class="bold">First Name:</label>
+				<input type="text" name="first_name" th:value="${user.first_name}" class="bk"/> 
 				<label for="last_name">Last Name:</label>
-			   	<input type="text" name="last_name" th:value="${user.last_name}" /> 
+			   	<input type="text" name="last_name" th:value="${user.last_name}" class="bk"/> 
 			   	<label for="email">Email:</label>
-			   	<input type="text" name="email" th:value="${user.email}" /> 
+			   	<input type="text" name="email" th:value="${user.email}" class="bk"/> 
 			   	<label for="date">Birth Date:</label>
-			   	<input type="date" name="birth_date" th:value="${user.birth_date}" />
-
+			   	<input type="date" name="birth_date" th:value="${user.birth_date}" class="bk"/>
 			   	<label for="budget_amount">Your Budget $:</label>
-			   	<input type="text" name="budget_amount" th:value="${user.budget_amount}" /> 
+			   	<input type="text" name="budget_amount" th:value="${user.budget_amount}" class="bk"/> 
 		   	</div>
 		</div>	
-		
-		<div id="expenseList">
-			<h3>Expenses</h3>
-		    <div class="row">
-		    	<div class="col form-group d-none">Id</div>
-		        <div class="col form-group">Name</div>
-		        <div class="col form-group">Amount</div>
-		        <div class="col form-group">Category</div>
-		        <div class="col form-group">Date</div>
+		<div id="expenseList" >
+			<div class="row subtitle" >
+				<h3 class=" smpad">Expenses</h3> 
+			</div>
+			<div class="row">
+			        <div class="col form-group bold bk">Name</div>
+			        <div class="col form-group bold bk">Amount</div>
+			        <div class="col form-group bold bk">Category</div>
+			        <div class="col form-group bold bk">Date</div>
+			    </div>
 		    </div>
 		    <div class="row item" th:each="expense, status : ${user.expenses}">
-		    	<div class="col form-group d-none" >
-		    		<input th:field="*{expenses[__${status.index}__].expense_id}" type="hidden" class="form-control">
-		        </div>
 		    	<div class="col form-group" >
 		            <input th:field="*{expenses[__${status.index}__].name}" type="text" class="form-control">
 		        </div>
 		        <div class="col form-group">
 		            <input th:field="*{expenses[__${status.index}__].budget_amount}" type="number" class="form-control">
-		        </div>
-		        <div class="col form-group d-none">
-		        	<input th:field="*{expenses[__${status.index}__].category.category_id}" type="hidden" class="form-control">
 		        </div>
 		        <div class="col form-group">
 		        	<input th:field="*{expenses[__${status.index}__].category.name}" type="text" class="form-control">
@@ -62,46 +55,44 @@
 		        <hr />
 		    </div>
 		</div>
-	</div>
-
 	<div class="col">
 		<!--add new row button-->
 		<button type="button" class="btn btn-success" onclick="addRow()">Add row</button>
 		<button name="submit" type="submit" class="btn btn-primary">Submit</button>
 	</div> 
 </form>
-
+<div class="col">
+	<a href="/viewAll">View all budget</a>
+</div>
 </body>
 <script type="text/javascript">
-let addRow = function () {
-    let listName = 'expenses'; 
-    let fieldsNames = ['id','name', 'budget_amount', 'category.name', 'date_time']; //field names from Expense
-    let rowIndex = document.querySelectorAll('.item').length; //we can add mock class to each recipe-row
-
-    let row = document.createElement('div');
-    row.classList.add('row', 'item');
-
-    fieldsNames.forEach((fieldName) => {
-        let col = document.createElement('div');
-        col.classList.add('col', 'form-group');
-
-        let input = document.createElement('input');
-        
-        if(fieldName == "date_time") input.type = 'date';
-        else if(fieldName == 'amount') input.type = 'number';
-        else if (fieldName === 'id') col.classList.add('d-none'); //field with id - hidden
-        //else if (fieldName === 'category.category_id') col.classList.add('d-none'); 
-        else input.type = 'text';
-        input.classList.add('form-control');
-        input.id = listName + rowIndex + '.' + fieldName;
-        input.setAttribute('name', listName + '[' + rowIndex + '].' + fieldName);
-
-        col.appendChild(input);
-        row.appendChild(col);
-    });
+	let addRow = function () {
+	    let listName = 'expenses'; 
+	    let fieldsNames = ['name', 'budget_amount', 'category.name', 'date_time']; //field names from Expense
+	    let rowIndex = document.querySelectorAll('.item').length; //we can add mock class to each recipe-row
+	    let row = document.createElement('div');
+	    row.classList.add('row', 'item');
+	    fieldsNames.forEach((fieldName) => {
+	        let col = document.createElement('div');
+	        col.classList.add('col', 'form-group');
+	        let input = document.createElement('input');
+	        
+	        if(fieldName == "date_time") input.type = 'date';
+	        else if(fieldName == 'amount') input.type = 'number';
+	        else input.type = 'text';
+	        input.classList.add('form-control');
+	        input.id = listName + rowIndex + '.' + fieldName;
+	        input.setAttribute('name', listName + '[' + rowIndex + '].' + fieldName);
+	        col.appendChild(input);
+	        row.appendChild(col);
+	    });
+		
+		    document.getElementById('expenseList').appendChild(row);
+		};
 	
-	    document.getElementById('expenseList').appendChild(row);
-	};
+	function date(){
+		let dt = new Date();
+		document.getElementById("date").innerHTML = dt.toLocaleString();
+	}
 </script>
 </html>
-

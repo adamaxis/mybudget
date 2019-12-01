@@ -2,8 +2,6 @@ package mybudget.controller;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.validation.Valid;
 
@@ -73,16 +71,23 @@ public class WebController {
 		model.addAttribute("user", user);
 		return "view-edit-budget";
 	}
-
+	
+	@PostMapping("/saveUser")
+	public String saveUserForm(@ModelAttribute("user") User user, Model model) {
+		repo.save(user);
+		model.addAttribute("user", user);
+		return "index";
+	}
+	
 	@GetMapping("/editUser/{id}")
 	public String editUserForm(@PathVariable("id") long id, Model model) {
 		User usr = repo.findById(id).orElse(null);
-		if (usr == null)
-			return "error"; // error page goes here
+		if(usr == null) return "error"; 
+		
 		model.addAttribute("user", usr);
 		return "edit-user";
-	}
-
+	}	
+	
 	@GetMapping("/searchForUser")
 	public String searchForUser(Model model) {
 		return "search-for-user";
@@ -105,42 +110,7 @@ public class WebController {
 		model.addAttribute("users", users);
 		return "results";
 	}
-
-	@PostMapping("/saveUser")
-	public String saveUserForm(@ModelAttribute("user") User user, Model model) {
-		repo.save(user);
-		model.addAttribute("user", user);
-		return "index";
-	}
-
-	// Code for printing model attributes to console -- Daniel
-	/*
-	 * Map<String, Object> y = model.asMap(); for (Entry<String, Object> entry :
-	 * y.entrySet()) System.out.println("Key = " + entry.getKey() + ", Value = " +
-	 * entry.getValue());
-	 */
-
-	@PostMapping("editExpense/{id}")
-	public String editExpense(@PathVariable long id, @ModelAttribute("user") User user, Model model) {
-		User usr = repo.findById(id).orElse(null);
-		if (usr == null)
-			return "error"; // error page goes here
-		usr.setExpenses(user.getExpenses());
-		repo.save(usr);
-		model.addAttribute("users", usr);
-		return "results";
-	}
-
-	@RequestMapping(path = "editExpense/{id}", method = RequestMethod.GET)
-	public String document(@PathVariable long id, Model model) {
-		User usr = repo.findById(id).orElse(null);
-		if (usr == null)
-			return "error"; // error page goes here
-		model.addAttribute("id", id);
-		model.addAttribute("user", usr);
-		return "edit-expense";
-	}
-
+	
 	@GetMapping("/deleteBudget/{id}")
 	public String deleteBudgetForm(@PathVariable("id") long id, Model model) {
 		User user = repo.findById(id).orElse(null);
@@ -183,26 +153,10 @@ public class WebController {
 		return "results";
 	}
 	
-	@PostMapping("/addExpense/{id}")
-	public String addExpense(@PathVariable("id") long id, @Valid User user, BindingResult result, Model model) {	
-		if (result.hasErrors()) {
-			 user.setUser_id(id);
-			 System.out.println("ERROR");
-			 return "add-expense";
-		}
-		user.setUser_id(id);
-		
-		repo.save(user);
-		model.addAttribute("users", repo.findAll());		
-		return "results";
-	}
-
-	@GetMapping("/addExpense/{id}")
-	public String addExpense(@PathVariable("id") long id, Model model) {
-		User user = repo.findById(id).orElse(null);
-		if (user == null)
-			return "error";
-		model.addAttribute("user", user);
-		return "add-expense";
-	}
+	// Code for printing model attributes to console -- Daniel
+		/*
+		 * Map<String, Object> y = model.asMap(); for (Entry<String, Object> entry :
+		 * y.entrySet()) System.out.println("Key = " + entry.getKey() + ", Value = " +
+		 * entry.getValue());
+		 */
 }
