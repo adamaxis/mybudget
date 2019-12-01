@@ -27,7 +27,7 @@ public class User {
 	private LocalDate date;
 	private double budget_amount;
 	
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<Expense> expenses;
 	
 	public User() {
