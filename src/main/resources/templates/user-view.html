@@ -10,7 +10,8 @@
 		<td th:text="${currentUser.first_name}" />
 		<td th:text="${currentUser.last_name}" />
 		<td th:text="${currentUser.email}" />
-		<td th:text="${currentUser.date}" />
+		<td th:text="${currentUser.birth_date}" />
+		<td th:text="${currentUser.creation_date}" />
 		<td th:text="${currentUser.budget_amount}" />
 		<th:block th:each="currentExpense : ${currentUser.expenses}">
 				<td th:text="${currentExpense.name}" />

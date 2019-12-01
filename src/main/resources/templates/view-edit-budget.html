@@ -15,12 +15,13 @@
 	<h2>Budget</h2>
 </div>
 <hr />
-<form name="updateBudget" th:action="@{/updatebudget/{id}(id=${user.user_id})}" th:object="${user}" method="post">
+<form name="updateBudget" th:action="@{/updateBudget/{id}(id=${user.user_id})}" th:object="${user}" method="post">
 	<div class="col">
 		<div class="form-group">
 			<div>
 				<div class="row">
 		        	<div class="col form-group">
+				   		<h4 th:text="'Creation Date: ' + ${user.creation_date}"></h4>
 					   <h3>User</h3>
 						<input type="hidden" name="user_id" th:value="${user.user_id}" />
 						<label for="first_name">First Name:</label>
@@ -30,7 +31,8 @@
 					   	<label for="email">Email:</label>
 					   	<input type="text" name="email" th:value="${user.email}" /> 
 					   	<label for="date">Birth Date:</label>
-					   	<input type="date" name="date" th:value="${user.date}" /> 
+					   	<input type="date" name="birth_date" th:value="${user.birth_date}" /> 
+					   	<input type="hidden" name="creation_date" th:value="${user.creation_date}" /> 
 					   	<label for="budget_amount">Your Budget $:</label>
 					   	<input type="text" name="budget_amount" th:value="${user.budget_amount}" /> 
 				   	</div>

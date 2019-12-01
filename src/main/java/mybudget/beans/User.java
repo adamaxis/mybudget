@@ -24,7 +24,9 @@ public class User {
 	private String last_name;
 	private String email;
 	@DateTimeFormat(pattern="yyyy-MM-dd") // for model verification
-	private LocalDate date;
+	private LocalDate birth_date;
+	@DateTimeFormat(pattern="yyyy-MM-dd") // for model verification
+	private LocalDate creation_date;
 	private double budget_amount;
 	
 	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true)
@@ -34,14 +36,15 @@ public class User {
 		super();
 	}
 
-	public User(long user_id, String first_name, String last_name, String email, LocalDate date, double budget_amount,
+	public User(long user_id, String first_name, String last_name, String email, LocalDate creation_date, LocalDate birth_date, double budget_amount,
 			List<Expense> expenses) {
 		super();
 		this.user_id = user_id;
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.email = email;
-		this.date = date;
+		this.creation_date = creation_date;
+		this.birth_date = birth_date;
 		this.budget_amount = budget_amount;
 		this.expenses = expenses;
 	}
@@ -78,12 +81,20 @@ public class User {
 		this.email = email;
 	}
 
-	public LocalDate getDate() {
-		return date;
+	public LocalDate getCreation_date() {
+		return creation_date;
 	}
 
-	public void setDate(LocalDate date) {
-		this.date = date;
+	public void setCreation_date(LocalDate date) {
+		this.creation_date= date;
+	}
+	
+	public LocalDate getBirth_date() {
+		return birth_date;
+	}
+
+	public void setBirth_date(LocalDate date) {
+		this.birth_date= date;
 	}
 
 	public double getBudget_amount() {
@@ -107,26 +118,30 @@ public class User {
 	}
 	
 	public double getBalance() {
-		double balance = 0, totalExpense = 0;
-		for( int i = 0 ;  i < getExpenses().size() ; i++ ) {
-			totalExpense += expenses.get(i).getAmount();
+		try {
+			Double balance = 0.0, totalExpense = 0.0;
+			for(Expense exp : getExpenses()) {
+				totalExpense += exp.getAmount();
+			}
+			balance =  budget_amount - totalExpense;
+			if(balance.isInfinite() || balance.isNaN()) return 0;
+			return balance;
+		} catch (NullPointerException ex) {
+			return 0;
 		}
-		balance =  budget_amount - totalExpense;
-		return balance;
 	}
 	
 	public double getPercent() {
 			double available = getBalance();
 			Double percent = (available / budget_amount) * 100;
-		System.out.print(percent);
-		if(percent.isInfinite()) return 0;
+		if(percent.isInfinite() || percent.isNaN()) return 0;
 		return percent;
 	}
 	
 	@Override
 	public String toString() {
 		return "User [user_id=" + user_id + ", first_name=" + first_name + ", last_name=" + last_name + ", email="
-				+ email + ", date=" + date + ", budget_amount=" + budget_amount + ", expenses=" + expenses + "]";
+				+ email + ", birth_date=" + birth_date + ", creation_date=" + creation_date + ", budget_amount=" + budget_amount + ", expenses=" + expenses + "]";
 	}
 	
 }
