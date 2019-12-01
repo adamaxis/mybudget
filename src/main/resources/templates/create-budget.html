@@ -10,7 +10,7 @@
 	<h2>Create Budget</h2>
 </div>
 <hr />
-<form name="budget" th:action="@{/savebudget}" th:object="${user}" method="post">
+<form name="budget" th:action="@{/saveBudget}" th:object="${user}" method="post">
 	<div class="col">
 		<!-- FOR THE USER -->
 		<div class="row">
@@ -24,7 +24,8 @@
 			   	<label for="email">Email:</label>
 			   	<input type="text" name="email" th:value="${user.email}" /> 
 			   	<label for="date">Birth Date:</label>
-			   	<input type="date" name="date" th:value="${user.date}" /> 
+			   	<input type="date" name="birth_date" th:value="${user.birth_date}" />
+
 			   	<label for="budget_amount">Your Budget $:</label>
 			   	<input type="text" name="budget_amount" th:value="${user.budget_amount}" /> 
 		   	</div>
@@ -47,7 +48,7 @@
 		            <input th:field="*{expenses[__${status.index}__].name}" type="text" class="form-control">
 		        </div>
 		        <div class="col form-group">
-		            <input th:field="*{expenses[__${status.index}__].amount}" type="number" class="form-control">
+		            <input th:field="*{expenses[__${status.index}__].budget_amount}" type="number" class="form-control">
 		        </div>
 		        <div class="col form-group d-none">
 		        	<input th:field="*{expenses[__${status.index}__].category.category_id}" type="hidden" class="form-control">
@@ -74,7 +75,7 @@
 <script type="text/javascript">
 let addRow = function () {
     let listName = 'expenses'; 
-    let fieldsNames = ['id','name', 'amount', 'category.name', 'date_time']; //field names from Expense
+    let fieldsNames = ['id','name', 'budget_amount', 'category.name', 'date_time']; //field names from Expense
     let rowIndex = document.querySelectorAll('.item').length; //we can add mock class to each recipe-row
 
     let row = document.createElement('div');

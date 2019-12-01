@@ -1,5 +1,6 @@
 package mybudget.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -34,20 +35,21 @@ public class WebController {
 		return "results";
 	}
 
-	@GetMapping("/addbudget")
+	@GetMapping("/addBudget")
 	public String addBudgetForm(@ModelAttribute("user") User user) {
 
 		return "create-budget";
 	}
 
-	@PostMapping("/savebudget")
+	@PostMapping("/saveBudget")
 	public String saveUserBudget(@ModelAttribute("user") User user, Model model) {
+		user.setCreation_date(LocalDate.now());
 		repo.save(user);
 		model.addAttribute("users", repo.findAll());
 		return "results";
 	}
 	
-	@PostMapping("/updatebudget/{id}")
+	@PostMapping("/updateBudget/{id}")
 	public String updateUserBudget(@PathVariable("id") long id, @Valid User user, BindingResult result, Model model) {
 		
 		if (result.hasErrors()) {
@@ -63,7 +65,7 @@ public class WebController {
 		return "view-edit-budget";
 	}
 
-	@GetMapping("/editbudget/{id}")
+	@GetMapping("/editBudget/{id}")
 	public String viewEditBudgetForm(@PathVariable("id") long id, Model model) {
 		User user = repo.findById(id).orElse(null);
 		if (user == null)
@@ -72,7 +74,7 @@ public class WebController {
 		return "view-edit-budget";
 	}
 
-	@GetMapping("/edituser/{id}")
+	@GetMapping("/editUser/{id}")
 	public String editUserForm(@PathVariable("id") long id, Model model) {
 		User usr = repo.findById(id).orElse(null);
 		if (usr == null)
@@ -101,10 +103,10 @@ public class WebController {
 		if (users == null)
 			return "error";
 		model.addAttribute("users", users);
-		return "user-view";
+		return "results";
 	}
 
-	@PostMapping("/saveuser")
+	@PostMapping("/saveUser")
 	public String saveUserForm(@ModelAttribute("user") User user, Model model) {
 		repo.save(user);
 		model.addAttribute("user", user);
@@ -141,10 +143,10 @@ public class WebController {
 
 	@GetMapping("/deleteBudget/{id}")
 	public String deleteBudgetForm(@PathVariable("id") long id, Model model) {
-		User usr = repo.findById(id).orElse(null);
-		if (usr == null)
+		User user = repo.findById(id).orElse(null);
+		if (user == null)
 			return "error"; // error page goes here
-		repo.delete(usr);
+		repo.delete(user);
 		model.addAttribute("users", repo.findAll());
 		return "results";
 	}
@@ -172,7 +174,6 @@ public class WebController {
 					break;
 			}
 			if (!found) {
-				// System.out.println("Removing " + exp.get(i) + " for "+ searchText + ".");
 				exp.remove(i);
 			}
 		}

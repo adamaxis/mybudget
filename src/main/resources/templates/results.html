@@ -2,58 +2,71 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">   
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+<script src="../js/bootstrap.min.js"></script> 
 <link href="tables.css" rel="stylesheet" type="text/css">
 <title>View All Budget</title>
 </head>
-<table>
-		<tr>
-	 		<th></th>
-	 		<th>User</th>
-	 		<th>Email</th>
-	 		<th>Date</th>
-	 		<th>Amount</th>
-	 		<th>View Budget/Details</th>
-	 		<th>Delete</th>
-	 		<th>Add</th>
-	 		<th>Edit</th>
-		</tr>
-		<tr th:each="currentUser : ${users}">
-				<td><input type="radio" th:value="${currentUser.user_id}" /></td>
-				<td th:text="${currentUser.first_name + ' ' + currentUser.last_name}"/>
-				<td th:text="${currentUser.email}" />
-				<td th:text="${currentUser.date}" />
-				<td th:text="${'$ ' + currentUser.budget_amount}" />
-				<th:block th:each="currentExpense : ${currentUser.expenses}">
-				</th:block>
-				<td><a th:href="@{/editbudget/{id}(id=${currentUser.user_id})}">View Details/Edit</a></td>
-				<td><a th:href="@{/deleteBudget/{id}(id=${currentUser.user_id})}">Delete</a></td>
-				<td><a th:href="@{/addExpense/{id}(id=${currentUser.user_id})}">New Expense</a></td>
-				<td><a th:href="@{/edituser/{id}(id=${currentUser.user_id})}">Edit User</a></td>
-		</tr>
-	</table>
-<table>
-
-
-<tr th:each="currentUser : ${users}">
-		<td th:text="${currentUser.user_id}" />
-		<td th:text="${currentUser.first_name}" />
-		<td th:text="${currentUser.last_name}" />
-		<td th:text="${currentUser.email}" />
-		<td th:text="${currentUser.date}" />
-		<td th:text="${currentUser.budget_amount}" />
-		<th:block th:each="currentExpense : ${currentUser.expenses}">
-				<td th:text="${currentExpense.name}" />
-				<td th:text="${currentExpense.amount}" />
-				<td th:text="${currentExpense.category.name}" />
-				<td th:text="${currentExpense.date_time}" />		
-		</th:block>
-		<td><a th:href="@{/edituser/{id}(id=${currentUser.user_id})}">Edit User</a></td>
-		<td><a th:href="@{/editExpense/{id}(id=${currentUser.user_id})}">Edit Expense</a></td>
-		<td><a th:href="@{/editbudget/{id}(id=${currentUser.user_id})}">Edit Budget</a></td>
-		<td><a th:href="@{/deleteBudget/{id}(id=${currentUser.user_id})}">Delete Budget</a></td>
-</tr>
-</table>
-<a href="addbudget">Create new budget</a> <br />
+<body>
+<div class="col">
+	<h2 style="text-align:center;">Results</h2>
+</div>
+<div class="col">
+	<div class="table-group">
+		<table class="table table-striped table-bordered table-sm" id="results">
+			<thead>
+				<tr>
+			 		<th>Owner</th>
+			 		<th>Email</th>
+			 		<th>Created</th>
+			 		<th>Budget</th>
+			 		<th>Available</th>
+			 		<th>View Budget/Details</th>
+			 		<th>Delete</th>
+			 		<th>Add</th>
+			 		<th>Edit</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="currentUser : ${users}">
+					<input type="hidden" th:value="${currentUser.user_id}" />
+					<td th:text="${currentUser.first_name + ' ' + currentUser.last_name}"/>
+					<td th:text="${currentUser.email}" />
+					<td th:text="${currentUser.creation_date}" />
+					<td th:text="${'$' + currentUser.budget_amount}" />
+					
+					<th:block th:switch="true">
+						<td th:case="${currentUser.getBalance()} > 0" style="background-color: green;" th:text="${'$' + currentUser.getBalance()}" ></td>
+						<td th:case="${currentUser.getBalance()} == 0" style="background-color: yellow;" th:text="${'$' + currentUser.getBalance()}" ></td>
+						<td th:case="${currentUser.getBalance()} < 0" style="background-color: red;" th:text="${'$' + currentUser.getBalance()}" ></td>
+					</th:block>
+						
+					<th:block th:each="currentExpense : ${currentUser.expenses}">
+					</th:block>
+					<td><a th:href="@{/editBudget/{id}(id=${currentUser.user_id})}">View Details/Edit</a></td>
+					<td><a th:href="@{/deleteBudget/{id}(id=${currentUser.user_id})}">Delete</a></td>
+					<td><a th:href="@{/addExpense/{id}(id=${currentUser.user_id})}">New Expense</a></td>
+					<td><a th:href="@{/editUser/{id}(id=${currentUser.user_id})}">Edit User</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+		<button type="button" class="btn btn-primary" onclick="window.location.assign('../');">Back To Index</button>
+		<button type="button" class="btn btn-success" onclick="window.location.assign('addBudget');">Create Budget</button>
 </body>
-<link href="tables.css" rel="stylesheet" type="text/css">
+<script>
+$(document).ready(function() {
+    $('#results').DataTable({
+    	'lengthChange': true,
+    	'paging': true,
+    	'searching': true
+    });
+} );
+</script></script>
 </html>
