@@ -1,0 +1,54 @@
+@charset "UTF-8";
+.row {
+	  background-color: #efefef;
+	  border-radius: 10px;
+	}
+	.title {
+	  text-align: center;
+	  padding-top: 17px;
+	}
+	.bold {
+	  font-weight: bold;
+	}
+	.bk {
+	  background-color: white;
+	  border-style: inset;
+	  border-radius: 4px; 
+	}
+	.subtitle{
+		padding-top: 20px;
+	}
+	.smpad{
+		padding-left: 12px;
+		padding-bottom: 16px;
+	}
+	
+	table, th, td {
+	  border: 1px solid black;
+	  margin: auto;
+		width: 45%;
+		padding: 10px;
+		text-align: center;
+	}
+	
+	.date{
+		text-align: center;
+	  	padding-top: 10px;
+	  	color: red;
+	}
+	
+	input[type=submit] {
+	  width: 20%;
+	  background-color: #3399ff;
+	  color: white;
+	  padding: 14px 20px;
+	  margin: 8px 0;
+	  border-radius: 4px;
+	}
+	
+	.box{
+		margin: auto;
+		width: 50%;
+		padding: 10px;
+		text-align: center;
+	}

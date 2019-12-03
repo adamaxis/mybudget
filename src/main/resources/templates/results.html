@@ -28,7 +28,6 @@
 			 		<th>Available</th>
 			 		<th>View Budget/Details</th>
 			 		<th>Delete</th>
-			 		<th>Add</th>
 			 		<th>Edit</th>
 				</tr>
 			</thead>
@@ -50,7 +49,6 @@
 					</th:block>
 					<td><a th:href="@{/editBudget/{id}(id=${currentUser.user_id})}">View Details/Edit</a></td>
 					<td><a th:href="@{/deleteBudget/{id}(id=${currentUser.user_id})}">Delete</a></td>
-					<td><a th:href="@{/addExpense/{id}(id=${currentUser.user_id})}">New Expense</a></td>
 					<td><a th:href="@{/editUser/{id}(id=${currentUser.user_id})}">Edit User</a></td>
 				</tr>
 			</tbody>
