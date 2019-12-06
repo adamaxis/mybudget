@@ -9,13 +9,21 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
 <script src="../js/bootstrap.min.js"></script> 
-<link href="tables.css" rel="stylesheet" type="text/css">
 <title>View All Budget</title>
+<style>
+body {margin:2em;}
+tfoot tr, thead tr {
+	background: lightblue;
+}
+tfoot td {
+	font-weight:bold;
+}</style>
 </head>
 <body>
 <div class="col">
 	<h2 style="text-align:center;">Results</h2>
 </div>
+<span id="filterInfo"></span>
 <div class="col">
 	<div class="table-group">
 		<table class="table table-striped table-bordered table-sm" id="results">
@@ -24,8 +32,8 @@
 			 		<th>Owner</th>
 			 		<th>Email</th>
 			 		<th>Created</th>
-			 		<th>Budget</th>
-			 		<th>Available</th>
+			 		<th>Budget($)</th>
+			 		<th>Available($)</th>
 			 		<th>View Budget/Details</th>
 			 		<th>Delete</th>
 			 		<th>Edit</th>
@@ -37,12 +45,12 @@
 					<td th:text="${currentUser.first_name + ' ' + currentUser.last_name}"/>
 					<td th:text="${currentUser.email}" />
 					<td th:text="${currentUser.creation_date}" />
-					<td th:text="${'$' + currentUser.budget_amount}" />
+					<td th:text="${'' + currentUser.budget_amount}" />
 					
 					<th:block th:switch="true">
-						<td th:case="${currentUser.getBalance()} > 0" style="background-color: green;" th:text="${'$' + currentUser.getBalance()}" ></td>
-						<td th:case="${currentUser.getBalance()} == 0" style="background-color: yellow;" th:text="${'$' + currentUser.getBalance()}" ></td>
-						<td th:case="${currentUser.getBalance()} < 0" style="background-color: red;" th:text="${'$' + currentUser.getBalance()}" ></td>
+						<td th:case="${currentUser.getBalance()} > 0" style="background-color: green;"  th:text="${'' + currentUser.getBalance()}" ></td>
+						<td th:case="${currentUser.getBalance()} == 0" style="background-color: yellow;"  th:text="${'' + currentUser.getBalance()}" ></td>
+						<td th:case="${currentUser.getBalance()} < 0" style="background-color: red;" th:text="${'' + currentUser.getBalance()}" ></td>
 					</th:block>
 						
 					<th:block th:each="currentExpense : ${currentUser.expenses}">
@@ -52,6 +60,18 @@
 					<td><a th:href="@{/editUser/{id}(id=${currentUser.user_id})}">Edit User</a></td>
 				</tr>
 			</tbody>
+			<tfoot>
+				<tr>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+			</tfoot>
 		</table>
 	</div>
 </div>
@@ -62,9 +82,31 @@
 $(document).ready(function() {
     $('#results').DataTable({
     	'lengthChange': true,
-    	'paging': true,
-    	'searching': true
+    	'paging': false,
+    	'searching': true,
+		"footerCallback": function ( row, data, start, end, display ) {
+			var api = this.api();
+			nb_cols = api.columns().nodes().length;
+			var j = 3;
+			while(j < nb_cols){
+				var pageTotal = api
+            		.column( j, { page: 'current'} )
+            		.data()
+            		.reduce( function (a, b) {
+                		return Number(a) + Number(b);
+            		}, 0 );
+      // Update footer
+      $( api.column( j ).footer() ).html(pageTotal);
+				j++;
+			} 
+		}
     });
+    var table = $('#results').DataTable();
+
+    table.on( 'search.dt', function () {
+        $('#filterInfo').html( 'Currently applied global search: '+table.search() );
+    } );
 } );
+
 </script></script>
 </html>

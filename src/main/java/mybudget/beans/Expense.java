@@ -81,6 +81,11 @@ public class Expense {
 		this.category = category;
 	}
 
+	public boolean isEmpty() {
+		if(expense_id == 0 && date_time == null && name == null && amount == 0.0 && category == null) return true;
+		return false;
+	}
+	
 	@Override
 	public String toString() {
 		return "Expense [expense_id=" + expense_id + ", date_time=" + date_time + ", name=" + name + ", amount="
