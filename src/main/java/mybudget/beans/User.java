@@ -117,6 +117,10 @@ public class User {
 		return expenses.get(i);
 	}
 	
+	public boolean removeExpense(Expense e) {
+		return expenses.remove(e);
+	}
+	
 	public double getBalance() {
 		try {
 			Double balance = 0.0, totalExpense = 0.0;
