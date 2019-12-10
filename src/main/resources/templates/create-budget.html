@@ -1,6 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="../css/bootstrap.min.css">   
 <script src="../js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="../css/tables.css">
@@ -44,14 +45,18 @@
 		            <input th:field="*{expenses[__${status.index}__].name}" type="text" class="form-control">
 		        </div>
 		        <div class="col form-group">
-		            <input th:field="*{expenses[__${status.index}__].budget_amount}" type="number" class="form-control">
+		            <input th:field="*{expenses[__${status.index}__].amount}" type="number" class="form-control">
 		        </div>
 		        <div class="col form-group">
-		        	<input th:field="*{expenses[__${status.index}__].category.name}" type="text" class="form-control">
-		        </div>
+			      	<input th:field="*{expenses[__${status.index}__].category.name}" type="text" class="form-control">
+			    </div>
 		        <div class="col form-group">
 		            <input th:field="*{expenses[__${status.index}__].date_time}" type="date" class="form-control">
 		        </div>
+		        <div class="col form-group">
+			      	<a href="#" th:class="remove">Remove</a>
+			      	<input th:field="*{expenses[__${status.index}__].expense_id}" type="hidden" class="form-control">
+			    </div>
 		        <hr />
 		    </div>
 		</div>
@@ -68,7 +73,7 @@
 <script type="text/javascript">
 	let addRow = function () {
 	    let listName = 'expenses'; 
-	    let fieldsNames = ['name', 'budget_amount', 'category.name', 'date_time']; //field names from Expense
+	    let fieldsNames = ['name', 'amount', 'category.name', 'date_time']; //field names from Expense
 	    let rowIndex = document.querySelectorAll('.item').length; //we can add mock class to each recipe-row
 	    let row = document.createElement('div');
 	    row.classList.add('row', 'item');
@@ -83,16 +88,26 @@
 	        input.classList.add('form-control');
 	        input.id = listName + rowIndex + '.' + fieldName;
 	        input.setAttribute('name', listName + '[' + rowIndex + '].' + fieldName);
+	        
 	        col.appendChild(input);
 	        row.appendChild(col);
 	    });
-		
-		    document.getElementById('expenseList').appendChild(row);
+		    var a = document.createElement('a');
+	        var remove = document.createTextNode("Remove");
+	        a.appendChild(remove);
+	        a.href = "#";
+	        
+	        document.getElementById('expenseList').appendChild(row);
+	        document.getElementById('expenseList').appendChild(a);
 		};
 	
 	function date(){
 		let dt = new Date();
 		document.getElementById("date").innerHTML = dt.toLocaleString();
 	}
+	
+	/* function remove(int id){
+		
+	} */
 </script>
 </html>
