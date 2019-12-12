@@ -1,13 +1,13 @@
 package mybudget.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +20,6 @@ import mybudget.repository.UserRepository;
 @Controller
 public class WebController {
 
-	ApplicationContext _context;
 	@PostConstruct
 	public void initialize() {
 
@@ -55,22 +54,27 @@ public class WebController {
 		
 		if (result.hasErrors()) {
 		    List<FieldError> errors = result.getFieldErrors();
+		    boolean errorsResolved = true;
 		    for (FieldError error : errors ) {
+		    	if(!error.isBindingFailure()) errorsResolved = false;
 		        System.out.println (error.getObjectName() + " - " + error.getDefaultMessage());
 		    }
+		    if(!errorsResolved) {
 			 user.setUser_id(id);
 			 System.out.println("ERROR");
 			 return "view-edit-budget";
+		    }
 		}
 		user.setUser_id(id);
-		for(int i=user.getExpenses().size()-1; i > 0; i--) {
+		
+		for(int i=(user.getExpenses() != null ? user.getExpenses().size()-1 : -1); i > 0; i--) {
 			Expense e = user.getExpense(i);
 			System.out.println(e.toString());
 			if(e.isEmpty()) {
 				user.removeExpense(e);
 			}
 		}
-		
+		if(user.getExpenses() == null) user.setExpenses(new ArrayList<Expense>());
 		repo.save(user);
 		model.addAttribute("users", repo.findAll());
 		
@@ -88,8 +92,12 @@ public class WebController {
 	
 	@PostMapping("/saveUser")
 	public String saveUserForm(@ModelAttribute("user") User user, Model model) {
-		repo.save(user);
-		model.addAttribute("user", user);
+		User usr = repo.findById(user.getUser_id()).orElse(null);
+		if (usr == null)
+			return "error";
+		usr.updateUser(user);
+		repo.save(usr);
+		model.addAttribute("user", usr);
 		return "index";
 	}
 	

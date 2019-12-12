@@ -142,6 +142,15 @@ public class User {
 		return percent;
 	}
 	
+	public void updateUser(User user) {
+			this.first_name = user.first_name;
+			this.last_name = user.last_name;
+			this.email = user.email;
+			this.creation_date = user.creation_date;
+			this.birth_date = user.birth_date;
+			this.budget_amount = user.budget_amount;
+	}
+	
 	@Override
 	public String toString() {
 		return "User [user_id=" + user_id + ", first_name=" + first_name + ", last_name=" + last_name + ", email="

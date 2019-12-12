@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,7 +25,6 @@ public class Expense {
 	private LocalDate date_time;
 	private String name;
 	private double amount;
-	
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "category_id")
 	private Category category;
